@@ -40,12 +40,39 @@ function pAequorFactory(number, arr) {
           sameBase ++;
       }
       console.log(`specimen #1 and specimen #2 have ${((sameBase/pAequor.length)*100).toFixed(2)}% DNA in common`);
+    },
+    willLikelySurvive() {
+      // Returns true if the object's dna array contains at least 60% 'C' or 'G' bases, otherwise returns false
+      let countCorG = 0;
+      for (let i = 0; i < this.dna.length; i++){
+        if (this.dna[i] === 'C' || this.dna[i] === 'G')
+          countCorG ++
+      }
+      return countCorG/this.dna.length*100 > 60;
     }
-  }
+  };
 }
+
+// test data
 const mockStrand = mockUpStrand();
 const mock2 = mockUpStrand();
 
 // TEST COMPARE DNA
 const newObj = pAequorFactory(34, mockStrand);
 newObj.compareDNA(mock2);
+
+// Testing willLikelySurvive()
+console.log(newObj.willLikelySurvive());
+
+
+// create 30 instances of pAequor and save them into an array
+let pAequorArray = []
+for (let i = 0; i < 30; i++) {
+  pAequorArray.push(pAequorFactory(i + 1, mockUpStrand()))
+}
+
+// testing
+console.log(`Array length: ${pAequorArray.length}\nFirst element: ${pAequorArray[0].specimenNum}\n
+Last element: ${pAequorArray[29].specimenNum}`)
+console.log(pAequorArray[0].dna)
+console.log(pAequorArray[24].mutate())
